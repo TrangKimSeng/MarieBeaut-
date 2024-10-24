@@ -1,1 +1,1 @@
-<?php echo 'Allo Kim'; ?>
+<?php echo 'Allo classe'; ?>
