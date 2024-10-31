@@ -17,9 +17,9 @@ let specialistes = [
   { id: 3, nom: "Jorgette" },
 ];
 let rendez_vous = [
-  { date: "31-10-2024" },
-  { date: "30-10-2024" },
-  { date: "29-10-2024" },
+  { client_id: 1, date: "31-10-2024" },
+  { client_id: 3, date: "30-10-2024" },
+  { client_id: 3, date: "29-10-2024" },
 ];
 
 //C'est une route GET qui renvoie un tableau contenant les URLs
@@ -31,7 +31,7 @@ app.get("/users", (req, res) => {
   res.json(userReferences);
 });
 app.get("/rdv", (req, res) => {
-  const userReferences = rendez_vous.map((rdv) => `/rdv/${user.id}`);
+  const userReferences = rendez_vous.map((rdv) => `/rdv/${rdv.date}`);
   res.json(userReferences);
 });
 
@@ -52,14 +52,25 @@ app.get("/user/:id", (req, res) => {
     res.status(404).json({ error: "Tâche non trouvée" });
   }
 });
+app.get("/user/:id/rdv", (req, res) => {
+  const userId = parseInt(req.params.id);
+  const user = users.find((user) => user.id === userId);
+  const rdv = rendez_vous.filter((rdv) => rdv.client_id === userId);
+  if (user && rdv) {
+    res.json(rdv);
+  } else {
+    res.status(404).json({ error: "Tâche non trouvée" });
+  }
+});
 
-app.post("/users", (req, res) => {
-  const newuser = {
-    id: users.length + 1,
-    description: req.body.description,
+app.post("/user/:id/rdv", (req, res) => {
+  const userId = parseInt(req.params.id);
+  const newRdv = {
+    client_id: userId,
+    date: req.body.date,
   };
-  users.push(newuser);
-  res.status(201).json({ message: "Tâche ajoutée avec succès", user: newuser });
+  rendez_vous.push(newRdv);
+  res.status(201).json({ message: "RDV ajoutée avec succès", rdv: newRdv });
 });
 
 app.put("/user/:id", (req, res) => {
