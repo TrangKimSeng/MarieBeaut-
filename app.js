@@ -113,8 +113,6 @@ app.delete("/user/:id", (req, res) => {
 
 
 //Appointment
-
-
 app.get("/appointments", (req, res) => {
   const appointmentReferences = appointments.map(appointment => `/Appointment: ${appointment.id}, ${appointment.service}, par ${appointment.staff}`);
   res.json(appointmentReferences);
