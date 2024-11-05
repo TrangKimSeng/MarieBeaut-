@@ -6,30 +6,25 @@ const port = 3000;
 
 app.use(bodyParser.json());
 
-let users = [
-  { id: 1, email: "Faire les courses", nom: "Pablo The king" },
-  { id: 2, email: "Faire les courses", nom: "Pablo Jr" },
-  { id: 3, email: "Faire les courses", nom: "Pablito" },
+let appointments = [
+    { id: 1, date: "12 novembre 2024", staff: "Jeam", service: "Coupe Homme",  contact: "Pablo@gmail.com" },
+    { id: 2, date: "12 novembre 2024", staff: "Michel", service: "Coupe Homme",  contact: "Pablojr@gmail.com" },
+    { id: 3, date: "12 novembre 2024", staff: "MexicanDestroyer", service: "Coupe Homme",  contact: "ElTaco@gmail.com" },
 ];
+
 let specialistes = [
-  { id: 1, nom: "Michelle" },
-  { id: 2, nom: "Valerie" },
-  { id: 3, nom: "Jorgette" },
+  { id: 1, name: "Michelle", description: "Meilleur spécialiste" },
+  { id: 2, name: "Valerie", description: "pire spécialiste" },
+  { id: 3, name: "Jorgette", description: "pas pire spécialiste" },
 ];
-//C'est une route GET qui renvoie un tableau contenant les URLs
-// de référence pour chaque tâche. Pour chaque tâche dans le
-//tableau users, elle crée une URL de la forme /user/[id].
 
+let users = [
+    { id: 1, name: "Pablo The king", email: "Pablo@gmail.com",  password: "12345"},
+    { id: 2, name: "Pablo Jr", email: "Pablojr@gmail.com", password: "12345"},
+    { id: 3,  name: "ElTacoMan", email: "ElTaco@gmail.com",password: "12345"},
+];
 
-/*
-app.get("/rdv", (req, res) => {
-  const userReferences = rendez_vous.map((rdv) => `/rdv/${rdv.date}`);
-  res.json(userReferences);
-});
-*/
-
-
-//Spécialiste
+//Spécialiste 
 /* EndPoints pour get tout les specialistes */
 app.get("/specialistes", (req, res) => {
   const userReferences = specialistes.map(
@@ -54,31 +49,36 @@ app.get("/specialiste/:id", (req, res) => {
 //Users
 /*Des endPoints relier au user TODO: A revoir*/
 //Les user peuvent faire tout avec les RDV tant que ca soit avec son id
+//celle la je suis pas sur vu que un utilisateur pourrait pas vraiment avoir tout les information d'autre utilisateurs
+/*
 app.get("/users", (req, res) => {
   const userReferences = users.map((user) => `/user/${user.id}`);
   res.json(userReferences);
 });
+*/
+
 
 app.get("/user/:id", (req, res) => {
-  const userId = parseInt(req.params.id);
+  const userId = parseInt(req.params.id); 
   const user = users.find((user) => user.id === userId);
   if (user) {
     res.json(user);
   } else {
-    res.status(404).json({ error: "Tâche non trouvée" });
+    res.status(404).json({ error: "Utilisateurs non trouvée" });
   }
 });
-app.get("/user/:id/rdv", (req, res) => {
+app.get("/user/:id/appointment", (req, res) => {
   const userId = parseInt(req.params.id);
   const user = users.find((user) => user.id === userId);
-  const rdv = rendez_vous.filter((rdv) => rdv.client_id === userId);
-  if (user && rdv) {
-    res.json(rdv);
+  const appointment = appointments.filter((appointment) => appointment.contact === user.email);
+  if (user && appointment) {
+    res.json(appointment);
   } else {
-    res.status(404).json({ error: "Tâche non trouvée" });
+    res.status(404).json({ error: "Rendez-vous non trouvée" });
   }
 });
 
+/*
 app.post("/user/:id/rdv", (req, res) => {
   const userId = parseInt(req.params.id);
   const newRdv = {
@@ -88,13 +88,16 @@ app.post("/user/:id/rdv", (req, res) => {
   rendez_vous.push(newRdv);
   res.status(201).json({ message: "RDV ajoutée avec succès", rdv: newRdv });
 });
+*/
 
 app.put("/user/:id", (req, res) => {
   const userId = parseInt(req.params.id);
   const user = users.find((user) => user.id === userId);
   if (user) {
+    user.name = req.body.description;
     user.description = req.body.description;
-    res.json({ message: "Tâche mise à jour avec succès", user });
+    user.description = req.body.description;
+    res.json({ message: "Utilisateur mise à jour avec succès", user });
   } else {
     res.status(404).json({ error: "Tâche non trouvée" });
   }
@@ -103,18 +106,14 @@ app.put("/user/:id", (req, res) => {
 app.delete("/user/:id", (req, res) => {
   const userId = parseInt(req.params.id);
   users = users.filter((user) => user.id !== userId);
-  res.json({ message: "Tâche supprimée avec succès" });
+  res.json({ message: "Utilisateur supprimée avec succès" });
 });
 
 
 
 
 //Appointment
-let appointments = [
-    { id: 1, date: "12 novembre 2024", staff: "Jeam", service: "Coupe Homme",  contact: "superemail@gmail.com" },
-    { id: 2, date: "12 novembre 2024", staff: "Michel", service: "Coupe Homme",  contact: "Jean@gmail.com" },
-    { id: 3, date: "12 novembre 2024", staff: "MexicanDestroyer", service: "Coupe Homme",  contact: "Marc@gmail.com" },
-];
+
 
 app.get("/appointments", (req, res) => {
   const appointmentReferences = appointments.map(appointment => `/Appointment: ${appointment.id}, ${appointment.service}, par ${appointment.staff}`);
@@ -128,7 +127,7 @@ app.get('/appointment/:id', (req, res) => {
   if (appointment) {
       res.json(appointment);
   } else {
-      res.status(404).json({ error: 'Rendez-vou non trouvée' });
+      res.status(404).json({ error: 'Rendez-vous non trouvée' });
   }
 });
 
@@ -142,12 +141,12 @@ app.post('/appointment', (req, res) => {
 
   };
   appointments.push(newAppointment);
-  res.status(201).json({ message: 'Tâche ajoutée avec succès', appointment: newAppointment });
+  res.status(201).json({ message: 'Rendez-vous ajoutée avec succès', appointment: newAppointment });
 });
 
 app.put('/appointment/:id', (req, res) => {
   const appointmentId = parseInt(req.params.id);
-  const appointment = appointmentss.find(appointment => appointment.id === appointmentId);
+  const appointment = appointments.find(appointment => appointment.id === appointmentId);
   if (appointment) {
     appointment.date = req.body.date;
     appointment.staff = req.body.staff;
@@ -159,10 +158,10 @@ app.put('/appointment/:id', (req, res) => {
   }
 });
 
-app.delete('/task/:id', (req, res) => {
-    const taskId = parseInt(req.params.id);
-    tasks = tasks.filter(task => task.id !== taskId);
-    res.json({ message: 'Tâche supprimée avec succès' });
+app.delete('/appointment/:id', (req, res) => {
+    const appointmentId = parseInt(req.params.id);
+    appointments = appointments.filter(appointment => appointment.id !== appointmentId);
+    res.json({ message: 'Rendez-vous supprimée avec succès' });
 });
 
 //Console log lorsque on se connecter au server
