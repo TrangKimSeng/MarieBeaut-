@@ -1,0 +1,143 @@
+Section pour les spécialistes 
+
+Récupère tous les spécialiste avec GET
+localhost:3000/specialistes
+
+[
+    "/specialiste/1",
+    "/specialiste/2",
+    "/specialiste/3"
+]
+
+Récupère un spécialiste à partir de son id avec GET
+localhost:3000/specialiste/1
+
+{
+    "id": 1,
+    "name": "Michelle",
+    "description": "Meilleur spécialiste"
+}
+
+Section pour les users
+Récupère un utilisateurs par son id avec Get
+localhost:3000/user/1
+
+{
+    "id": 1,
+    "name": "Pablo The king",
+    "email": "Pablo@gmail.com",
+    "password": "12345"
+}
+
+Récupère les rendez-vous d’un utilisateurs à partir de son id avec GET
+localhost:3000/user/1/appointment
+
+[
+    {
+        "id": 1,
+        "date": "12 novembre 2024",
+        "staff": "Jeam",
+        "service": "Coupe Homme",
+        "contact": "Pablo@gmail.com"
+    }
+]
+
+Modifie un user avec PUT
+localhost:3000/user/1
+Input : 
+{
+    "id": 1,
+    "name": "Pablo Jr",
+    "email": "Pablojr@gmail.com",
+    "password": "12345"
+}
+Output : 
+{
+    "message": "Utilisateur mise à jour avec succès",
+    "user": {
+        "id": 1,
+        "email": "Pablo@gmail.com",
+        "password": "12345"
+    }
+}
+
+Delete un user avec DELETE
+localhost:3000/user/1
+
+{
+    "message": "Utilisateur supprimée avec succès"
+}
+
+Section pour les rendez-vous
+
+Récupère tout les rdv avec GET
+localhost:3000/appointments
+
+[
+    "/Appointment: 1, Coupe Homme, par Jeam",
+    "/Appointment: 2, Coupe Homme, par Michel",
+    "/Appointment: 3, Coupe Homme, par MexicanDestroyer"
+]
+Get rdv avec son id avec GET
+localhost:3000/appointment/1
+{
+    "id": 1,
+    "date": "12 novembre 2024",
+    "staff": "Jeam",
+    "service": "Coupe Homme",
+    "contact": "Pablo@gmail.com"
+}
+
+
+Crée un rdv avec POST
+localhost:3000/appointment
+Input : 
+{
+    "id": 5,
+    "date": "12 décembre 2024",
+    "staff": "Jeam",
+    "service": "Coupe Homme",
+    "contact": "Pablo@gmail.com"
+}
+
+Output :
+{
+    "message": "Rendez-vous ajoutée avec succès",
+    "appointment": {
+        "id": 5,
+        "date": "12 décembre 2024",
+        "staff": "Jeam",
+        "service": "Coupe Homme",
+        "contact": "Pablo@gmail.com"
+    }
+}
+
+Modifie un rdv avec PUT
+localhost:3000/appointment/5
+Input : 
+{
+    "id": 5,
+    "date": "12 avril 2024",
+    "staff": "Jeam",
+    "service": "Coupe Homme",
+    "contact": "Pablo@gmail.com"
+}
+
+Output : 
+{
+    "message": "Rendez-vous mise à jour avec succès",
+    "appointment": {
+        "id": 5,
+        "date": "12 avril 2024",
+        "staff": "Jeam",
+        "service": "Coupe Homme",
+        "contact": "Pablo@gmail.com"
+    }
+}
+
+Delete un rdv avec DELETE
+localhost:3000/appointment/5
+
+{
+    "message": "Rendez-vous supprimée avec succès"
+}
