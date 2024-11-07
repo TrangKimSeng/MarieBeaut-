@@ -26,6 +26,7 @@ localhost:3000/user/1
     "id": 1,
     "name": "Pablo The king",
     "email": "Pablo@gmail.com",
+    "phone": 123456,
     "password": "12345"
 }
 
@@ -42,6 +43,29 @@ localhost:3000/user/1/appointment
     }
 ]
 
+Ajoute un user 
+localhost:3000/user
+Input : 
+{
+    "id": 5,
+    "name": "Pablo The king",
+    "email": "Pablo@gmail.com",
+    "phone": "123456",
+    "password": "12345"
+}
+
+Output : 
+{
+    "message": "Utilisateurs ajoutée avec succès",
+    "user": {
+        "id": 5,
+        "name": "Pablo The king",
+        "email": "Pablo@gmail.com",
+        "phone": "123456",
+        "password": "12345"
+    }
+}
+
 Modifie un user avec PUT
 localhost:3000/user/1
 Input : 
@@ -49,7 +73,8 @@ Input :
     "id": 1,
     "name": "Pablo Jr",
     "email": "Pablojr@gmail.com",
-    "password": "12345"
+    "phone": 123456,
+    "password": "123456"
 }
 Output : 
 {
@@ -57,7 +82,8 @@ Output :
     "user": {
         "id": 1,
         "email": "Pablo@gmail.com",
-        "password": "12345"
+        "phone": 123456,
+        "password": "123456"
     }
 }
 

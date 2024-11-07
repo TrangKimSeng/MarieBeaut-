@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const app = express();
-const port = 3001;
+const port = 3000;
 
 app.use(bodyParser.json());
 
@@ -19,9 +19,9 @@ let specialistes = [
 ];
 
 let users = [
-    { id: 1, name: "Pablo The king", email: "Pablo@gmail.com",  password: "12345"},
-    { id: 2, name: "Pablo Jr", email: "Pablojr@gmail.com", password: "12345"},
-    { id: 3,  name: "ElTacoMan", email: "ElTaco@gmail.com",password: "12345"},
+    { id: 1, name: "Pablo The king", email: "Pablo@gmail.com", phone: 123456, password: "12345"},
+    { id: 2, name: "Pablo Jr", email: "Pablojr@gmail.com", phone: 123456, password: "12345"},
+    { id: 3,  name: "ElTacoMan", email: "ElTaco@gmail.com", phone: 123456, password: "12345"},
 ];
 
 //Spécialiste 
@@ -78,25 +78,29 @@ app.get("/user/:id/appointment", (req, res) => {
   }
 });
 
-/*
-app.post("/user/:id/rdv", (req, res) => {
-  const userId = parseInt(req.params.id);
-  const newRdv = {
-    client_id: userId,
-    date: req.body.date,
+
+app.post("/user", (req, res) => {
+  //const userId = parseInt(req.params.id);
+  const newUser = {
+    id: req.body.id,
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    password: req.body.password
   };
-  rendez_vous.push(newRdv);
-  res.status(201).json({ message: "RDV ajoutée avec succès", rdv: newRdv });
+  users.push(newUser)
+  res.status(201).json({ message: "Utilisateurs ajoutée avec succès", user: newUser });
 });
-*/
+
 
 app.put("/user/:id", (req, res) => {
   const userId = parseInt(req.params.id);
   const user = users.find((user) => user.id === userId);
   if (user) {
     user.name = req.body.description;
-    user.description = req.body.description;
-    user.description = req.body.description;
+    user.email = req.body.email;
+    user.phone = req.body.phone;
+    user.password = req.body.password;
     res.json({ message: "Utilisateur mise à jour avec succès", user });
   } else {
     res.status(404).json({ error: "Tâche non trouvée" });
