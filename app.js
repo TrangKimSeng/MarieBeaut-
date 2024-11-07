@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.use(bodyParser.json());
 
@@ -166,3 +166,5 @@ app.delete('/appointment/:id', (req, res) => {
 app.listen(port, () => {
   console.log(`Serveur écoutant sur le port ${port}`);
 });
+
+module.exports = app;
